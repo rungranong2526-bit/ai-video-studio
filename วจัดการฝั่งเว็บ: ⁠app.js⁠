@@ -1,0 +1,12 @@
+const $=s=>document.querySelector(s); let selected=[];
+$("#images").onchange=()=>{$("#files").innerHTML="";selected=[...$("#images").files].slice(0,3);selected.forEach(f=>$("#files").innerHTML+=`<div class="file">✓ ${f.name}</div>`)};
+async function post(u,d){let r=await fetch(u,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(d)});let j=await r.json();if(!r.ok)throw Error(j.error||"เกิดข้อผิดพลาด");return j}
+async function upload(f){let fd=new FormData();fd.append("file",f);let r=await fetch("/api/upload",{method:"POST",body:fd});let j=await r.json();if(!r.ok)throw Error(j.error);return j.id}
+async function poll(id,el){let t=setInterval(async()=>{try{let j=await (await fetch("/api/job?id="+encodeURIComponent(id))).json();let pct=j.progress||0;el.querySelector(".bar").style.width=pct+"%";el.querySelector(".state").textContent=j.message||j.status;if(j.status==="done"){clearInterval(t);el.querySelector(".state").innerHTML=`เสร็จแล้ว ✓ ${j.video_url?`<a class="link" href="${j.video_url}" target="_blank">เปิดวิดีโอ</a>`:""}`}}catch(e){}},5000)}
+$("#plan").onclick=async()=>{let out=$("#planout");out.textContent="กำลังวิเคราะห์สินค้า...";try{
+ let refs=[];for(const f of selected)refs.push(await upload(f));
+ let j=await post("/api/create-project",{product:$("#product").value,link:$("#link").value,angle:$("#angle").value,count:+$("#count").value,references:refs});
+ out.innerHTML=`โปรเจกต์ ${j.project_id} พร้อมแล้ว`; $("#jobs").innerHTML="";
+ j.jobs.forEach((x,i)=>{let d=document.createElement("div");d.className="job";d.innerHTML=`<div class="jobtop"><b>คลิป ${i+1}: ${x.title}</b><span class="tag">QUEUED</span></div><div>${x.hook}</div><div class="progress"><div class="bar"></div></div><div class="state">รอเริ่ม</div>`;$("#jobs").appendChild(d);poll(x.job_id,d)});
+}catch(e){out.innerHTML=`<span class="danger">${e.message}</span>`}};
+(async()=>{try{let j=await (await fetch("/api/health")).json();$("#health").textContent=`AI ${j.gemini?"✓":"✕"} • Storage ${j.storage?"✓":"✕"}`}catch(e){}})();
