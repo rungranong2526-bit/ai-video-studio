@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Video Studio Pro V4</title><link rel="stylesheet" href="/style.css"></head>
+<body><main>
+<header><div><b>AI VIDEO STUDIO <span>PRO V4</span></b><small>SHOPEE • TIKTOK • REELS</small></div><div id="health">...</div></header>
+<section class="hero"><h1>จากสินค้า 1 ชิ้น → 3 คลิปขายของ</h1><p>AI วิเคราะห์มุมขาย • เขียนสคริปต์ • สร้างฉาก • สร้าง Veo • เก็บงานเป็นโปรเจกต์</p></section>
+<section class="card">
+  <div class="grid">
+    <div><label>ชื่อสินค้า</label><input id="product" placeholder="เช่น ที่ชาร์จโทรศัพท์">
+      <label>ลิงก์สินค้า (ถ้ามี)</label><input id="link" placeholder="https://s.shopee.co.th/...">
+      <label>มุมขาย / จุดเด่น</label><textarea id="angle">เน้นปัญหา ประโยชน์ จุดเด่น และปิดด้วย CTA ให้กดลิงก์</textarea>
+      <label>จำนวนคลิป</label><select id="count"><option value="1">1 คลิป</option><option value="3" selected>3 คลิป</option></select>
+    </div>
+    <div><label>รูปสินค้า (เลือกได้สูงสุด 3 รูป)</label><input id="images" type="file" accept="image/*" multiple>
+      <div id="files"></div>
+      <button id="plan">① วางแผน 3 คลิป</button>
+      <div id="planout"></div>
+    </div>
+  </div>
+</section>
+<section class="card"><h2>งานที่สร้าง</h2><div id="jobs" class="jobs"></div></section>
+<section class="card"><h2>ความปลอดภัยและต้นทุน</h2><p class="muted">API keys อยู่ฝั่ง Netlify Functions • ไม่ส่งคีย์ไป browser • ตั้งค่าโควตาก่อนเปิดให้ผู้อื่นใช้</p></section>
+<script src="/app.js"></script></main></body></html>
